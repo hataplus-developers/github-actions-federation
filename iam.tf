@@ -21,7 +21,7 @@ data "aws_iam_policy_document" "assume_role_policy" {
       test = "StringLike"
       variable = "vstoken.actions.githubusercontent.com:sub"
       values = [
-        "repo:${local.reponame}:ref:refs/heads/main"
+        "repo:${local.reponame}:ref:refs/heads/master"
       ]
     }
   }
