@@ -12,7 +12,7 @@ data "aws_iam_policy_document" "assume_role_policy" {
     }
     condition {
       test = "StringLike"
-      variable = "vstoken.actions.githubusercontent.com:aud:"
+      variable = "vstoken.actions.githubusercontent.com:aud"
       values = [
         "https://github.com/${local.reponame}"
       ]
