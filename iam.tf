@@ -10,20 +10,20 @@ data "aws_iam_policy_document" "assume_role_policy" {
       type = "Federated"
       identifiers = [aws_iam_openid_connect_provider.github.arn]
     }
-    condition {
-      test = "StringLike"
-      variable = "vstoken.actions.githubusercontent.com:aud"
-      values = [
-        "https://github.com/${local.reponame}"
-      ]
-    }
     # condition {
     #   test = "StringLike"
-    #   variable = "vstoken.actions.githubusercontent.com:sub:"
+    #   variable = "vstoken.actions.githubusercontent.com:aud"
     #   values = [
-    #     "repo:${local.reponame}:ref:refs/heads/main"
+    #     "https://github.com/${local.reponame}"
     #   ]
     # }
+    condition {
+      test = "StringLike"
+      variable = "vstoken.actions.githubusercontent.com:sub"
+      values = [
+        "repo:${local.reponame}:ref:refs/heads/main"
+      ]
+    }
   }
 }
 
