@@ -19,7 +19,7 @@ data "aws_iam_policy_document" "assume_role_policy" {
       ]
     }
     
-    # MEMO: ブランチで制御したい場合はこちら（CIは走るがAssumeRoleWithWebIdentityに失敗してエラーになる）
+    # MEMO: ブランチで制御したい場合はこちら（ブランチ名がmasterではない場合、CIは走るがAssumeRoleWithWebIdentityに失敗してエラーになる）
     # condition {
     #   test = "StringLike"
     #   variable = "vstoken.actions.githubusercontent.com:sub"
