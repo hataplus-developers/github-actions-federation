@@ -12,6 +12,8 @@ jobs:
     permissions:
       id-token: write
       contents: read
+      # pull-requests: write
+      # MEMO: actions/github-script とかでPRに github.issues.createComment する場合はpull-requests: writeが必要
     steps:
       - run: sleep 5
       - name: Configure AWS
