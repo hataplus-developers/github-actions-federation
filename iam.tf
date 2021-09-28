@@ -30,6 +30,7 @@ data "aws_iam_policy_document" "assume_role_policy" {
   }
 }
 
+# 同一AWSアカウント内に複数のこのURLでのIDプロバイダを作成できないため、このIDプロバイダを共有することになる
 resource "aws_iam_openid_connect_provider" "github" {
   url = "https://vstoken.actions.githubusercontent.com"
   thumbprint_list = ["a031c46782e6e6c662c2c87c76da9aa62ccabd8e"]
