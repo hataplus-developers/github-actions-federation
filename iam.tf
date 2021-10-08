@@ -10,23 +10,14 @@ data "aws_iam_policy_document" "assume_role_policy" {
       type = "Federated"
       identifiers = [aws_iam_openid_connect_provider.github.arn]
     }
-    # MEMO: リポジトリ名だけで制御したい場合はこちら
+    
     condition {
       test = "StringLike"
-      variable = "token.actions.githubusercontent.com:aud"
+      variable = "token.actions.githubusercontent.com:sub"
       values = [
-        "https://github.com/${local.reponame}"
+        "repo:${local.reponame}:*"
       ]
     }
-    
-    # MEMO: ブランチで制御したい場合はこちら（ブランチ名がmasterではない場合、CIは走るがAssumeRoleWithWebIdentityに失敗してエラーになる）
-    # condition {
-    #   test = "StringLike"
-    #   variable = "token.actions.githubusercontent.com:sub"
-    #   values = [
-    #     "repo:${local.reponame}:ref:refs/heads/master"
-    #   ]
-    # }
   }
 }
 
@@ -34,7 +25,7 @@ data "aws_iam_policy_document" "assume_role_policy" {
 resource "aws_iam_openid_connect_provider" "github" {
   url = "https://token.actions.githubusercontent.com"
   thumbprint_list = ["a031c46782e6e6c662c2c87c76da9aa62ccabd8e"]
-  client_id_list = ["https://github.com/${local.reponame}"]
+  client_id_list = ["sigstore"] # Question: GitHub ActionsのWorkflow内から叩くcurlに付与しているparamsの値と一致させる必要がある？
 }
 
 resource "aws_iam_role" "main" {
